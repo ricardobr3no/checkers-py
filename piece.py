@@ -1,6 +1,21 @@
 import arcade
 from config import SQUARE_SIZE
 
+show_crown = lambda piece: arcade.draw_rectangle_filled(
+    center_x=piece.col * SQUARE_SIZE + SQUARE_SIZE / 2,
+    center_y=piece.row * SQUARE_SIZE + SQUARE_SIZE / 2,
+    width=20,
+    height=10,
+    color=arcade.color.GOLD,
+)
+hide_crown = lambda piece: arcade.draw_rectangle_filled(
+    center_x=piece.col * SQUARE_SIZE + SQUARE_SIZE / 2,
+    center_y=piece.row * SQUARE_SIZE + SQUARE_SIZE / 2,
+    width=20,
+    height=10,
+    color=arcade.color.RED if piece.symbol == "R" else arcade.color.WHITE,
+)
+
 
 class Piece(arcade.sprite.SpriteCircle):
     def __init__(self, row, col, radius, color, symbol: str):
@@ -23,14 +38,10 @@ class Piece(arcade.sprite.SpriteCircle):
             self.is_king = True
             print("promovido")
             self.dir = [1, -1]
-
         self.is_selected = False
 
-    def change_size(self, mouse_pos: tuple):
-        if self.is_selected:
-            return
-
-        if self.collides_with_point(mouse_pos):
+    def change_size(self, mouse_pos: tuple, turno: str):
+        if self.collides_with_point(mouse_pos) and self.symbol == turno:
             self.scale = 1.1
         else:
             self.scale = 1

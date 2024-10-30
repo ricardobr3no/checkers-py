@@ -12,6 +12,7 @@ class Board:
         self.board = [[0 for _ in range(ROWS)] for _ in range(ROWS)]
         self.red_pieces = self.white_pieces = 12
         self.all_pieces = []
+        self.total_pieces = {"R": 12, "W": 12}
         self.death_pieces = []
         self.has_kill_moves = False
         self.all_moves = []
@@ -26,6 +27,10 @@ class Board:
             self.current_turn = "W"
 
     def draw_squares(self):
+        arcade.draw_xywh_rectangle_filled(
+            0, 0, SCREEN_HEIGHT, SCREEN_HEIGHT, arcade.color.BLACK
+        )
+
         for row in range(ROWS):
             for col in range(row % 2, COLS, 2):
                 arcade.draw_rectangle_filled(
@@ -81,12 +86,17 @@ class Board:
 
                 row_center = int((row + piece.row) // 2)
                 col_center = int((col + piece.col) // 2)
+
                 enemy = self.board[row_center][col_center]
-                self.death_pieces.append(enemy)
+
+                self.has_kill_moves = False
+                if isinstance(enemy, Piece):
+                    self.total_pieces[str(enemy.symbol)] -= 1
+                    self.death_pieces.append(enemy)
+
                 # self.board[row_center][col_center].kill()
                 self.board[row_center][col_center] = 0
                 piece.move(row, col)
-                self.has_kill_moves = False
 
             self.change_turn()
 
