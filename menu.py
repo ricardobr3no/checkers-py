@@ -10,8 +10,8 @@ class Menu(arcade.View):
 
         # Criar os botões
         label = arcade.gui.UILabel(text="MENU", font_size=32, font_name="comic sans MS")
-        label_total_pieces = arcade.gui.UILabel(
-            text=f"RED: {12}\nWHITE: {12}", font_size=24
+        self.label_total_pieces = arcade.gui.UILabel(
+            text=f"RED: {12} | WHITE: {12}", font_size=18
         )
         restart_button = arcade.gui.UIFlatButton(text="Restart", width=200)
         quit_button = arcade.gui.UIFlatButton(text="Quit", width=200)
@@ -28,10 +28,10 @@ class Menu(arcade.View):
             arcade.close_window()
 
         # Organizar os botões em um layout vertical
-        vertical_box = arcade.gui.UIBoxLayout()
+        vertical_box = arcade.gui.UIBoxLayout(align="center")
         vertical_box.add(label)
         vertical_box.add(space(40))
-        vertical_box.add(label_total_pieces)
+        vertical_box.add(self.label_total_pieces)
         vertical_box.add(space(20))
         vertical_box.add(restart_button)
         vertical_box.add(space(20))
@@ -42,8 +42,13 @@ class Menu(arcade.View):
         self.ui_manager.enable()
 
         self.ui_manager.add(
-            arcade.gui.UIAnchorWidget(anchor_x="right", align_x=-45, child=vertical_box)
+            arcade.gui.UIAnchorWidget(anchor_x="right", align_x=-40, child=vertical_box)
         )
 
     def on_draw(self):
         self.ui_manager.draw()
+
+    def update_score(self, novo_score: dict):
+        self.label_total_pieces.text = (
+            f"RED: {novo_score['R']} | WHITE: {novo_score['W']}"
+        )

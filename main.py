@@ -131,6 +131,7 @@ class MyGame(arcade.Window):
 
         # verifica fim de jogo
         print("total de peças: ", self.board.total_pieces)
+        self.menu.update_score(self.board.total_pieces)
 
         # verifica botao restart
 
