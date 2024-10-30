@@ -8,10 +8,11 @@ class Menu(arcade.View):
     def __init__(self):
         super().__init__()
 
-        # arcade.set_background_color(arcade.color.SKY_BLUE)
-
         # Criar os botões
         label = arcade.gui.UILabel(text="MENU", font_size=32, font_name="comic sans MS")
+        label_total_pieces = arcade.gui.UILabel(
+            text=f"RED: {12}\nWHITE: {12}", font_size=24
+        )
         restart_button = arcade.gui.UIFlatButton(text="Restart", width=200)
         quit_button = arcade.gui.UIFlatButton(text="Quit", width=200)
 
@@ -30,6 +31,8 @@ class Menu(arcade.View):
         vertical_box = arcade.gui.UIBoxLayout()
         vertical_box.add(label)
         vertical_box.add(space(40))
+        vertical_box.add(label_total_pieces)
+        vertical_box.add(space(20))
         vertical_box.add(restart_button)
         vertical_box.add(space(20))
         vertical_box.add(quit_button)
